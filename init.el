@@ -39,6 +39,13 @@
   (global-set-key (kbd "C-c h ! l") 'helm-flycheck)
   )
 
+(defun setup-flycheck-clang-project-path ()
+  (let ((root (ignore-errors (projectile-project-root))))
+    (when root
+      (setq flycheck-clang-include-path
+	    (list root))))
+  (add-to-list flycheck-clang-include-path "/usr/local/Cellar/glib/2.44.1/include/"))
+
 
 ;; angry-police-captain
 (global-set-key (kbd "C-c a") 'angry-police-captain)
@@ -158,6 +165,14 @@
 (eval-after-load 'tramp
   '(vagrant-tramp-enable))
 
+;; w3m
+(setq browse-url-browser-function 'w3m-browse-url)
+(setq w3m-use-cookies t)
+(setq exec-path (cons "/usr/local/bin/w3m" exec-path))
+
+;; whitespace-mode
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+
 ;; Helm
 (require 'helm-config)
 (helm-mode 1)
@@ -199,10 +214,16 @@
 			 (define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
 			 (define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
 			 (c-turn-on-eldoc-mode)
+			 (global-set-key (kbd "C-c C-s") 'moo-jump-local)
+
+			 ;; flycheck
 			 (flycheck-mode)
 			 (flycheck-color-mode-line-mode)
+			 (flycheck-select-checker 'c/c++-cppcheck)
 			 (assign-flycheck-bindings)
-			 (global-set-key (kbd "C-c C-s") 'moo-jump-local)
+
+			 (setup-flycheck-clang-project-path)
+
 			 ))
 
 ;; projectile
