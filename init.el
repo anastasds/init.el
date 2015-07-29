@@ -34,6 +34,10 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+;; scrolling
+(global-set-key (kbd "C-{") 'scroll-down-line)
+(global-set-key (kbd "C-}") 'scroll-up-line)
+
 ;; functions
 (defun assign-flycheck-bindings ()
   (global-set-key (kbd "C-c h ! l") 'helm-flycheck)
@@ -173,6 +177,9 @@
 ;; whitespace-mode
 (global-set-key (kbd "C-c w") 'whitespace-mode)
 
+;; yafolding
+(add-hook 'prog-mode-hook 'yafolding-mode)
+
 ;; Helm
 (require 'helm-config)
 (helm-mode 1)
@@ -221,8 +228,6 @@
 			 (flycheck-color-mode-line-mode)
 			 (flycheck-select-checker 'c/c++-cppcheck)
 			 (assign-flycheck-bindings)
-
-			 (setup-flycheck-clang-project-path)
 
 			 ))
 
